@@ -1,0 +1,29 @@
+services:
+  web:
+    build: ./api
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: music
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    depends_on:
+      db: 
+        condition: service_healthy
+        restart: true
+    restart: always
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: music
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -P 3306 -u root -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      retries: 30
+      start_period: 5s
+    restart: on-failure
