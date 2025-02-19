@@ -4,6 +4,34 @@ const Joi = require('joi');
 const router = express.Router();
 const { Album, Artist, Sequelize } = require('../models');
 
+/** 
+ * @swagger
+ * /albums:
+ *   get:
+ *     summary: Get a list of albums by artist
+ *     description: Get a list of albums by artist. You have to provide either artistId or artistName in the query.
+ *     parameters:
+ *       - in: query
+ *         name: artistId
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: artistName
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200: 
+ *         description: A list of albums by the artist 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Album'
+ *       400: 
+ *         description: Invalid query parameters
+ * 
+*/
 router.get('/', (req, res) => {
   // Handle case without query parameters
   if (req.query === undefined
@@ -48,6 +76,30 @@ router.get('/', (req, res) => {
   });
 });
 
+/** 
+ * @swagger
+ * /albums:
+ *   post:
+ *     summary: Create a new album
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Album'
+ *     responses:
+ *       201: 
+ *         description: The created album
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Album'
+ *       400: 
+ *         description: Validation error
+ *       500:
+ *         description: Internal Server Error
+ * 
+*/
 router.post('/', (req, res) => {
   // Validation
   const schema = Joi.object({

@@ -1,10 +1,15 @@
 const express = require('express');
+const setupSwagger = require('./docs/swagger');
+
 const albumsRouter = require('./routes/albums');
 const artistsRouter = require('./routes/artists');
 const genresRouter = require('./routes/genres');
 const orm = require('./models');
 
 const app = express();
+
+//Setup Swagger
+setupSwagger(app);
 
 /**
  * ORM config

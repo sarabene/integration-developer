@@ -24,4 +24,5 @@ docker-compose up --build
 
 3. Access the application: 
 
-API: `http://localhost:8080`
+- API: `http://localhost:8080`
+- Documentation: `http://localhost:8080/api-docs`

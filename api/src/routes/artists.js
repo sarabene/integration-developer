@@ -4,6 +4,33 @@ const Joi = require('joi');
 const router = express.Router();
 const { Album, Artist, Genre } = require('../models');
 
+/**
+ * @swagger
+ * /artists:
+ *   get:
+ *     summary: Get a list of artist
+ *     parameters:
+ *       - in: query
+ *         name: genreId
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: genreName
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of artist
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Artist'
+ *       400:
+ *         description: Invalid query parameters
+ *
+ */
 router.get('/', (req, res) => {
   // Validation
   const schema = Joi.object({
